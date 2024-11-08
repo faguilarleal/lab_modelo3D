@@ -11,7 +11,6 @@ mod model;
 mod color;
 mod fragment;
 mod shaders;
-mod bm;
 
 use framebuffer::Framebuffer;
 use vertex::Vertex;
@@ -95,8 +94,7 @@ fn render(framebuffer: &mut Framebuffer, uniforms: &Uniforms, vertex_array: &[Ve
         if x < framebuffer.width && y < framebuffer.height {
             let color = fragment.color.to_hex();
             framebuffer.set_current_color(color);
-            let depth_as_color = fragment.depth as u32;
-            framebuffer.point(x, y, depth_as_color);
+            framebuffer.point(x, y, fragment.depth);
         }
     }
 }
@@ -110,19 +108,19 @@ fn main() {
 
     let mut framebuffer = Framebuffer::new(framebuffer_width, framebuffer_height);
     let mut window = Window::new(
-        "NAVE 3DMODEL",
+        "3d render",
         window_width,
         window_height,
         WindowOptions::default(),
     )
     .unwrap();
 
-    window.set_position(0, 0);
+    window.set_position(500, 500);
     window.update();
 
-    framebuffer.set_background_color(0x355FEC);
+    framebuffer.set_background_color(0x333355);
 
-    let mut translation = Vec3::new(100.0, 0.0, 0.0);
+    let mut translation = Vec3::new(300.0, 200.0, 0.0);
     let mut rotation = Vec3::new(0.0, 0.0, 0.0);
     let mut scale = 100.0f32;
 
